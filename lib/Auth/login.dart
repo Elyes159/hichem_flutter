@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:sofima/Home/Home.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -25,9 +26,12 @@ class _LoginState extends State<Login> {
       'password': password,
     }),
   );
-
   if (requete.statusCode == 200) {
-   
+   bool superadmin = json.decode(requete.body)["superAdmin"];
+   bool admin = json.decode(requete.body)["admin"];
+   bool utilisateur = json.decode(requete.body)["utilisateur"];
+   print("superadmin = $superadmin , admin = $admin , user = $utilisateur");
+   Navigator.push(context, MaterialPageRoute(builder: (context)=>HomeScreen()));
    return true;
     
   } else {
