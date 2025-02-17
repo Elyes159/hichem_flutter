@@ -1,8 +1,9 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
-import 'package:sofima/Home/Home.dart';
+import 'package:sofima/widgtes/welcome.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -12,33 +13,44 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+  final FlutterSecureStorage storage = const FlutterSecureStorage();
 
- Future<bool> signIn({
-  required String email,
-  required String password,
-}) async {
-  final url = Uri.parse("http://192.168.1.13:8000/login/");
-  final requete = await http.post(
-    url,
-    headers: {'Content-Type': 'application/json'},
-    body: json.encode({
-      'username': email,
-      'password': password,
-    }),
-  );
-  if (requete.statusCode == 200) {
-   bool superadmin = json.decode(requete.body)["superAdmin"];
-   bool admin = json.decode(requete.body)["admin"];
-   bool utilisateur = json.decode(requete.body)["utilisateur"];
-   print("superadmin = $superadmin , admin = $admin , user = $utilisateur");
-   Navigator.push(context, MaterialPageRoute(builder: (context)=>HomeScreen()));
-   return true;
-    
-  } else {
-    print("${requete.statusCode}");
-    return false;
+  Future<bool> signIn({
+    required String email,
+    required String password,
+  }) async {
+    final url = Uri.parse("http://192.168.1.13:8000/login/");
+    final requete = await http.post(
+      url,
+      headers: {'Content-Type': 'application/json'},
+      body: json.encode({
+        'username': email,
+        'password': password,
+      }),
+    );
+    if (requete.statusCode == 200) {
+      bool superadmin = json.decode(requete.body)["superAdmin"];
+      storage.write(key: "token", value: json.decode(requete.body)["token"]);
+      storage.write(key: "admin", value: json.decode(requete.body)["admin"].toString());
+      storage.write(
+          key: "superadmin", value: json.decode(requete.body)["superAdmin"].toString());
+      storage.write(
+          key: "utilisateur", value: json.decode(requete.body)["utilisateur"].toString());
+     
+      storage.write(
+          key: "username", value: json.decode(requete.body)["username"]);
+
+      bool admin = json.decode(requete.body)["admin"];
+      bool utilisateur = json.decode(requete.body)["utilisateur"];
+      print("superadmin = $superadmin , admin = $admin , user = $utilisateur");
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => Welcome()));
+      return true;
+    } else {
+      print("${requete.statusCode}");
+      return false;
+    }
   }
-}
 
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
@@ -56,7 +68,9 @@ class _LoginState extends State<Login> {
                 height: 100,
                 width: 100,
               ),
-              SizedBox(height: 10,),
+              SizedBox(
+                height: 10,
+              ),
               TextField(
                 controller: _emailController,
                 decoration: InputDecoration(
@@ -68,7 +82,9 @@ class _LoginState extends State<Login> {
                   prefixIcon: Icon(Icons.email),
                 ),
               ),
-              SizedBox(height: 10,),
+              SizedBox(
+                height: 10,
+              ),
               TextField(
                 controller: _passwordController,
                 decoration: InputDecoration(
@@ -81,19 +97,28 @@ class _LoginState extends State<Login> {
                 ),
                 obscureText: true,
               ),
-              SizedBox(height: 16,),
+              SizedBox(
+                height: 16,
+              ),
               InkWell(
-                onTap: (){
-                  signIn(email: _emailController.text,password: _passwordController.text);
+                onTap: () {
+                  signIn(
+                      email: _emailController.text,
+                      password: _passwordController.text);
                 },
                 child: Container(
                   height: 50,
                   width: 100,
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    color: const Color.fromARGB(255, 10, 54, 90)
-                  ),
-                  child: Center(child: Text("login" , style : TextStyle(color: Colors.white , fontSize: 20 , fontWeight: FontWeight.bold))),),
+                      borderRadius: BorderRadius.circular(20),
+                      color: const Color.fromARGB(255, 10, 54, 90)),
+                  child: Center(
+                      child: Text("login",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold))),
+                ),
               ),
             ],
           ),
