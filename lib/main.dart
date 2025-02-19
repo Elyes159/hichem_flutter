@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:sofima/Auth/login.dart';
-import 'package:sofima/Home/Home.dart';
 import 'package:sofima/widgtes/welcome.dart';
 
 void main() {

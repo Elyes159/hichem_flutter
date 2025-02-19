@@ -86,6 +86,7 @@ class _WelcomeState extends State<Welcome> {
                     )
                   ],
                 ),
+                if (userType == "admin" || userType == "superadmin")
                 Column(
                   children: [
                     InkWell(
