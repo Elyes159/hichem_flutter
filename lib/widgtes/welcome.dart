@@ -151,7 +151,7 @@ class _WelcomeState extends State<Welcome> {
                     children: [
                       InkWell(
                         onTap: () {
-                            Navigator.push(context, MaterialPageRoute(builder: (context)=>Admin()));
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=>Admin()));
                         },
                         child: Image.asset(
                           "assets/admin.png", // Utilise une icône différente pour ce bouton

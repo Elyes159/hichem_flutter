@@ -21,7 +21,6 @@ class MyApp extends StatelessWidget {
     return true;
    }
   }
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
