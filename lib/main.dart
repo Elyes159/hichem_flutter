@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Scaffold(
               body: Center(child: CircularProgressIndicator()),
-            ); // Affiche un loader pendant la vérification
+            );
           }
           if (snapshot.hasError || snapshot.data == false) {
             return Login(); // Affiche la page de connexion si pas de token

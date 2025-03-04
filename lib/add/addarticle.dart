@@ -1,8 +1,8 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
-
 
 class AddArticle extends StatefulWidget {
   const AddArticle({super.key});
@@ -13,17 +13,16 @@ class AddArticle extends StatefulWidget {
 
 class _AddArticleState extends State<AddArticle> {
   TextEditingController _quantiteControler = TextEditingController();
-    TextEditingController _rControler = TextEditingController();
+  TextEditingController _rControler = TextEditingController();
   TextEditingController _dControler = TextEditingController();
 
-
-
-  Future<bool> AddArticle(int quantite, String reference , String description) async {
+  Future<bool> AddArticle(
+      int quantite, String reference, String description) async {
     final url = Uri.parse("http://192.168.1.13:8000/adda/");
     final body = jsonEncode({
       "quantite": quantite,
       "reference": reference,
-      "description" : description
+      "description": description
     });
     final response = await http.post(url,
         headers: {'Content-Type': 'application/json'}, body: body);
@@ -36,10 +35,27 @@ class _AddArticleState extends State<AddArticle> {
       return false;
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("add article"),),
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        backgroundColor: Colors.black,
+        title: Text(
+          "Ajouter un article",
+          style: GoogleFonts.dmSans(
+            color: Colors.white,
+            fontSize: 18,
+            fontWeight: FontWeight.w700,
+            height: 1.71,
+          ),
+        ),
+        iconTheme: IconThemeData(
+          color:
+              Colors.white, // Changer la couleur de l'icône (flèche de retour)
+        ),
+      ),
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
@@ -50,35 +66,66 @@ class _AddArticleState extends State<AddArticle> {
                 controller: _rControler,
                 decoration: InputDecoration(
                   hintText: "reference",
+                  hintStyle: GoogleFonts.dmSans(),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
                 ),
               ),
-              SizedBox(height: 16,),
+              SizedBox(
+                height: 16,
+              ),
               TextField(
                 controller: _dControler,
                 decoration: InputDecoration(
-                   hintText: "decription",
+                  hintText: "decription",
+                  hintStyle: GoogleFonts.dmSans(),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
                 ),
               ),
-              SizedBox(height: 16,),
+              SizedBox(
+                height: 16,
+              ),
               TextField(
                 controller: _quantiteControler,
                 decoration: InputDecoration(
                   hintText: "quantité",
+                  hintStyle: GoogleFonts.dmSans(),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
                 ),
               ),
-              SizedBox(height: 16,),
-              ElevatedButton(onPressed: (){
-                AddArticle(int.parse(_quantiteControler.text), _rControler.text, _dControler.text);
-              }, child: Text("add Article"))
+              SizedBox(
+                height: 16,
+              ),
+              InkWell(
+                onTap: () {
+                  AddArticle(int.parse(_quantiteControler.text),
+                      _rControler.text, _dControler.text);
+                },
+                child: Container(
+                    width: 400.28,
+                    height: 43.74,
+                    decoration: ShapeDecoration(
+                      color: Color(0xFF1A1A27),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5.47),
+                      ),
+                    ),
+                    child: Center(
+                      child: Text(
+                        "Ajouter l'article",
+                        style: GoogleFonts.dmSans(
+                          color: Colors.white,
+                          fontSize: 14.58,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    )),
+              )
             ],
           ),
         ),

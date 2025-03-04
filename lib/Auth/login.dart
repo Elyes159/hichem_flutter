@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:sofima/widgtes/welcome.dart';
 
@@ -31,12 +32,15 @@ class _LoginState extends State<Login> {
     if (requete.statusCode == 200) {
       bool superadmin = json.decode(requete.body)["superAdmin"];
       storage.write(key: "token", value: json.decode(requete.body)["token"]);
-      storage.write(key: "admin", value: json.decode(requete.body)["admin"].toString());
       storage.write(
-          key: "superadmin", value: json.decode(requete.body)["superAdmin"].toString());
+          key: "admin", value: json.decode(requete.body)["admin"].toString());
       storage.write(
-          key: "utilisateur", value: json.decode(requete.body)["utilisateur"].toString());
-     
+          key: "superadmin",
+          value: json.decode(requete.body)["superAdmin"].toString());
+      storage.write(
+          key: "utilisateur",
+          value: json.decode(requete.body)["utilisateur"].toString());
+
       storage.write(
           key: "username", value: json.decode(requete.body)["username"]);
 
@@ -57,72 +61,124 @@ class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Image.asset(
-                "assets/images.png",
-                height: 100,
-                width: 100,
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              TextField(
-                controller: _emailController,
-                decoration: InputDecoration(
-                  labelText: "Email",
-                  hintText: "Entrez votre email",
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  prefixIcon: Icon(Icons.email),
-                ),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              TextField(
-                controller: _passwordController,
-                decoration: InputDecoration(
-                  labelText: "password",
-                  hintText: "Entrez password",
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  prefixIcon: Icon(Icons.password),
-                ),
-                obscureText: true,
-              ),
-              SizedBox(
-                height: 16,
-              ),
-              InkWell(
-                onTap: () {
-                  signIn(
-                      email: _emailController.text,
-                      password: _passwordController.text);
-                },
-                child: Container(
-                  height: 50,
-                  width: 100,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      color: const Color.fromARGB(255, 10, 54, 90)),
-                  child: Center(
-                      child: Text("login",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold))),
-                ),
-              ),
-            ],
+      backgroundColor: Colors.white,
+      body: ListView(
+        padding: EdgeInsets.all(30),
+        children: [
+          SizedBox(
+            height: 221,
           ),
-        ),
+          Image.asset(
+            "assets/images.png",
+            height: 100,
+            width: 100,
+          ),
+          SizedBox(
+            height: 100,
+          ),
+          TextField(
+            controller: _emailController,
+            decoration: InputDecoration(
+              contentPadding: EdgeInsets.only(
+                top: 6.96,
+                left: 13.92,
+                right: 6.96,
+                bottom: 6.96,
+              ),
+              labelText: "Email",
+              hintText: "Entrez votre email",
+              labelStyle: GoogleFonts.dmSans(
+                color: Color(0xFF1A1A27),
+                fontSize: 14,
+                fontWeight: FontWeight.w400,
+                height: 1.24,
+              ),
+             
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(5.22),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(5.22),
+                borderSide: BorderSide(
+                  color: Color(0xFF1A1A27), // Changer la couleur si nécessaire
+                  width: 1,
+                ),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(5.22),
+                borderSide: BorderSide(
+                  color: Color(0xFF1A1A27), // Changer la couleur si nécessaire
+                  width: 1,
+                ),
+              ),
+            ),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          TextField(
+            controller: _passwordController,
+            obscureText: true, // Pour masquer le texte du mot de passe
+            decoration: InputDecoration(
+              contentPadding: EdgeInsets.only(
+                top: 6.96,
+                left: 13.92,
+                right: 6.96,
+                bottom: 6.96,
+              ),
+              labelText: "Mot de passe",
+              hintText: "Entrez votre mot de passe",
+              labelStyle: GoogleFonts.dmSans(
+                color: Color(0xFF1A1A27),
+                fontSize: 14,
+                
+                fontWeight: FontWeight.w400,
+                height: 1.24,
+              ),
+              
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(5.22),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(5.22),
+                borderSide: BorderSide(
+                  color: Color(0xFF1A1A27),
+                  width: 1,
+                ),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(5.22),
+                borderSide: BorderSide(
+                  color: Color(0xFF1A1A27),
+                  width: 1,
+                ),
+              ),
+            ),
+          ),
+          SizedBox(
+            height: 70,
+          ),
+          InkWell(
+            onTap: () {
+              signIn(
+                  email: _emailController.text,
+                  password: _passwordController.text);
+            },
+            child: Container(
+              height: 50,
+              width: 100,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5),
+                  color: Color(0xFF1A1A27),),
+              child: Center(
+                  child: Text("login",
+                      style: GoogleFonts.dmSans(
+                          color: Colors.white,
+                          fontSize: 14.58,
+                          fontWeight: FontWeight.bold))),
+            ),
+          ),
+        ],
       ),
     );
   }
